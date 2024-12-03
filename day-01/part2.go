@@ -1,12 +1,11 @@
 package main
 
 import (
-	"fmt"
 	"strconv"
 	"strings"
 )
 
-func partTwo(lines []string) {
+func partTwo(lines []string) int {
 	var col1 []int
 	var col2 []int
 	var total int
@@ -31,5 +30,5 @@ func partTwo(lines []string) {
 		total += i * occurrences
 	}
 
-	fmt.Println("Total: ", total)
+	return total
 }

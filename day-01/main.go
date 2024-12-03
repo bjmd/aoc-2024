@@ -2,12 +2,12 @@ package main
 
 import (
 	"bufio"
+	"fmt"
 	"log"
 	"os"
 )
 
 // const inputFile = "test_input.txt"
-
 const inputFile = "input.txt"
 
 func readLines(path string) ([]string, error) {
@@ -36,7 +36,7 @@ func main() {
 		log.Fatalf("readlines: %s", err)
 	}
 
-	partOne(lines)
-	partTwo(lines)
+	fmt.Println("Part one: ", partOne(lines))
+	fmt.Println("Part two: ", partTwo(lines))
 
 }

@@ -1,13 +1,12 @@
 package main
 
 import (
-	"fmt"
 	"sort"
 	"strconv"
 	"strings"
 )
 
-func partOne(lines []string) {
+func partOne(lines []string) int {
 	var col1 []int
 	var col2 []int
 	var diff int
@@ -36,5 +35,5 @@ func partOne(lines []string) {
 
 	}
 
-	fmt.Println("Total diff: ", diff)
+	return diff
 }
