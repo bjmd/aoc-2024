@@ -4,15 +4,10 @@ import "testing"
 
 func TestPartOne(t *testing.T) {
 	testInput := []string{
-		"7 6 4 2 1",
-		"1 2 7 8 9",
-		"9 7 6 2 1",
-		"1 3 2 4 5",
-		"8 6 4 4 1",
-		"1 3 6 7 9",
+		"xmul(2,4)%&mul[3,7]!@^do_not_mul(5,5)+mul(32,64]then(mul(11,8)mul(8,5))",
 	}
 
-	expectedResult := 2
+	expectedResult := 161
 
 	result := partOne(testInput)
 	if result != expectedResult {
@@ -22,15 +17,10 @@ func TestPartOne(t *testing.T) {
 
 func TestPartTwo(t *testing.T) {
 	testInput := []string{
-		"7 6 4 2 1",
-		"1 2 7 8 9",
-		"9 7 6 2 1",
-		"1 3 2 4 5",
-		"8 6 4 4 1",
-		"1 3 6 7 9",
+		"xmul(2,4)&mul[3,7]!^don't()_mul(5,5)+mul(32,64](mul(11,8)undo()?mul(8,5))",
 	}
 
-	expectedResult := 4
+	expectedResult := 48
 
 	result := partTwo(testInput)
 	if result != expectedResult {
