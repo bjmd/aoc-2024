@@ -3,62 +3,68 @@ package main
 import (
 	"regexp"
 	"strconv"
+	"strings"
 )
 
 func partTwo(lines []string) int {
 
 	var returnVal int
-	mulPattern := `^mul\((\d{1,3}),(\d{1,3})\)`
-	dontPattern := `^don\'t\(\)`
-	doPattern := `^do\(\)`
 
-	for _, line := range lines {
-		var dont bool
-		var do bool
+	// Join all lines into a single string
+	input := strings.Join(lines, "")
+	enabled := true
 
-		do = true
+	// Case/Switch implementation. Cleaner and more concise but around the same execution time.
+	pattern := `(mul\((\d{1,3}),(\d{1,3})\)|do\(\)|don't\(\))`
+	r := regexp.MustCompile(pattern)
+	matches := r.FindAllStringSubmatch(input, -1)
 
-		for len(line) > 0 {
-			// Regex search the start f each line for the matching pattern
-			r := regexp.MustCompile(mulPattern)
-			mulMatch := r.FindAllStringSubmatch(line, -1)
-
-			r = regexp.MustCompile(dontPattern)
-			dontMatch := r.FindAllStringSubmatch(line, -1)
-
-			r = regexp.MustCompile(doPattern)
-			doMatch := r.FindAllStringSubmatch(line, -1)
-
-			// If the multiply matches then add it and remove from the line.
-			if len(mulMatch) > 0 && do && !dont {
-				mulLength := len(mulMatch[0][0])
-				num1, _ := strconv.Atoi(mulMatch[0][1])
-				num2, _ := strconv.Atoi(mulMatch[0][2])
+	// Process matches in order
+	for _, match := range matches {
+		switch match[1] {
+		case "do()":
+			enabled = true
+		case "don't()":
+			enabled = false
+		default:
+			if enabled {
+				num1, _ := strconv.Atoi(match[2])
+				num2, _ := strconv.Atoi(match[3])
 				returnVal += num1 * num2
-				line = line[mulLength:]
-				continue
 			}
-
-			// if dont matches then update bools and remove from the line
-			if len(dontMatch) > 0 {
-				do = false
-				dont = true
-				line = line[7:]
-				continue
-			}
-
-			// if do matches then update bools and remove from the line
-			if len(doMatch) > 0 {
-				do = true
-				dont = false
-				line = line[4:]
-				continue
-			}
-
-			// If nothing matches then simply step forward one character
-			line = line[1:]
 		}
 	}
+
+	// Original implementation
+	//
+	// Find all matches at once
+	// mulR := regexp.MustCompile(`^mul\((\d{1,3}),(\d{1,3})\)`)
+	// dontR := regexp.MustCompile(`^don\'t\(\)`)
+	// doR := regexp.MustCompile(`^do\(\)`)
+
+	// for len(input) > 0 {
+	// 	if match := mulR.FindStringSubmatch(input); match != nil && enabled {
+	// 		num1, _ := strconv.Atoi(match[1])
+	// 		num2, _ := strconv.Atoi(match[2])
+	// 		returnVal += num1 * num2
+	// 		input = input[len(match[0]):]
+	// 		continue
+	// 	}
+
+	// 	if match := dontR.FindStringSubmatch(input); match != nil {
+	// 		enabled = false
+	// 		input = input[7:]
+	// 		continue
+	// 	}
+
+	// 	if match := doR.FindStringSubmatch(input); match != nil {
+	// 		enabled = true
+	// 		input = input[4:]
+	// 		continue
+	// 	}
+
+	// 	input = input[1:]
+	// }
 
 	return returnVal
 }
